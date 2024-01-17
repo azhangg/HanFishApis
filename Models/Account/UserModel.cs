@@ -104,4 +104,11 @@ namespace Models.Account
         [StringLength(200)]
         public string? AvatarUrl { get; set; }
     }
+
+    public class UpdatePasswordModel
+    {
+        public int Id { get; set; }
+
+        public required string Password { get; set; }
+    }
 }

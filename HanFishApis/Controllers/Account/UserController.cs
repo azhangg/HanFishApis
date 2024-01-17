@@ -11,6 +11,7 @@ using Services.Account;
 using System.Security.Claims;
 using System.Text.Json.Serialization;
 using Utils;
+using Utils.Crypto;
 
 namespace HanFishApis.Controllers.Account
 {
@@ -62,6 +63,15 @@ namespace HanFishApis.Controllers.Account
         public async Task<IActionResult> UpdateUserAsync(UpdateUserModel user)
         {
             if (await _userService.UpdateUserAsync(_mapper.Map<UserModel>(user)))
+                return JsonSuccess("修改成功");
+            return JsonFail("修改失败");
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> UpdateUserPasswordAsync(UpdatePasswordModel model)
+        {
+            model.Password = MD5Encrypt.EncryptTo32(model.Password);
+            if (await _userService.UpdateUserPasswordAsync(model))
                 return JsonSuccess("修改成功");
             return JsonFail("修改失败");
         }

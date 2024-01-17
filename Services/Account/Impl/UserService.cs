@@ -123,5 +123,15 @@ namespace Services.Account.Impl
             }
             return false;
         }
+
+        public async Task<bool> UpdateUserPasswordAsync(UpdatePasswordModel model)
+        {
+            User user = await _userRepository.GetEntityAsync(u => u.Id == model.Id);
+            if (user is null)
+                throw new UserOperationException("该用户不存在");
+            user.Password = model.Password;
+            _userRepository.UpdateEntity(user);
+            return await _userRepository.UnitOfWork.SaveChangeAsync();
+        }
     }
 }

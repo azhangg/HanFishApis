@@ -21,6 +21,8 @@ namespace Services.Account
 
         Task<bool> UpdateUserAsync(UpdateClientUserModel user);
 
+        Task<bool> UpdateUserPasswordAsync(UpdatePasswordModel model);
+
         Task<bool> DeleteUserAsync(int id);
 
         Task<bool> IsUserExistAsync(string loginName);
