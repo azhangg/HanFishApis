@@ -103,6 +103,14 @@ namespace Services.Message.Impl
             foreach (var item in chatMessages.OrderBy(c => c.CreateTime).GroupBy(c => c.SenderId))
             {
                 var userInfo = await _userRepository.GetEntityAsNoTrackingAsync(u => u.Id == item.Key);
+                if (userInfo is null) userInfo = new Entities.Account.User
+                {
+                    Id = 0,
+                    Name = "社区消息",
+                    LoginName = "",
+                    Password = "",
+                    AvatarUrl = "Files/SystemResource/notification.png"
+                };
                 result.Add(new ChatMessageResponseModel
                 {
                     TargetInfo = _mapper.Map<UserModel>(userInfo),
